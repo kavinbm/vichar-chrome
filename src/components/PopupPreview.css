@@ -1,18 +1,4 @@
 
-/* Adjust the prompt item background to be lighter */
-.prompt-item {
-  background-color: #f9fafb; /* Already very light, but we'll make it even lighter */
-  border-color: #f1f1f1; /* Using one of the light gray colors from the useful context */
-}
-
-/* Add more space around the categories container */
-.categories-container {
-  padding: 12px 16px; /* Increased vertical padding */
-  margin-bottom: 12px; /* Add space below the categories */
-  border-bottom: 1px solid var(--border-color);
-}
-
-/* Ensure consistent spacing in the search container */
 .search-container {
   padding: 12px 16px;
   display: flex;
@@ -20,5 +6,11 @@
   gap: 12px;
   background-color: #f9fafb;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 12px; /* Added to create equal space above and below */
+  margin-bottom: 16px; /* Increased from 12px to 16px */
+}
+
+.categories-container {
+  padding: 12px 16px;
+  margin-bottom: 16px; /* Increased from 12px to 16px to match search container */
+  border-bottom: 1px solid var(--border-color);
 }
