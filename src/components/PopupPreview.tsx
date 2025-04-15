@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
 import { Settings, MessageSquare } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { processTextForHighlighting } from '../utils/textHighlighter';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -100,38 +100,10 @@ const PopupPreview: React.FC = () => {
   const handleSavePrompt = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!promptTitle.trim() || !promptText.trim()) {
-      showToast('Title and prompt text are required', 'error');
-      return;
-    }
-    
-    const newPrompt = {
-      id: editingPromptId || Date.now().toString(36) + Math.random().toString(36).substring(2),
-      title: promptTitle,
-      text: promptText,
-      author: promptAuthor,
-      createdAt: editingPromptId ? (allPrompts.find(p => p.id === editingPromptId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    
-    let updatedPrompts;
-    if (editingPromptId) {
-      updatedPrompts = allPrompts.map(p => p.id === editingPromptId ? newPrompt : p);
-      showToast('Prompt updated successfully', 'success');
-    } else {
-      updatedPrompts = [newPrompt, ...allPrompts];
-      showToast('Prompt saved successfully', 'success');
-    }
-    
-    setAllPrompts(updatedPrompts);
-    setFilteredPrompts(updatedPrompts);
-    
-    // Reset form
-    setPromptTitle('');
-    setPromptText('');
-    setPromptAuthor('');
-    setEditingPromptId(null);
-    setCurrentTab('prompts');
+    // Just copy to clipboard instead of saving
+    navigator.clipboard.writeText(promptText)
+      .then(() => showToast('Copied to clipboard!', 'success'))
+      .catch(() => showToast('Failed to copy to clipboard', 'error'));
   };
 
   const handleCancelEdit = () => {
@@ -207,7 +179,7 @@ const PopupPreview: React.FC = () => {
           </div>
         ) : (
           filteredPrompts.map(prompt => (
-            <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => handleCopyPrompt(prompt.id)}>
+            <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => handleUsePrompt(prompt.id)}>
               <div className="prompt-header">
                 <div className="prompt-title">{prompt.title}</div>
                 <div className="prompt-actions">
@@ -247,6 +219,7 @@ const PopupPreview: React.FC = () => {
             value={promptText}
             onChange={(e) => setPromptText(e.target.value)}
             className="prompt-textarea"
+            dangerouslySetInnerHTML={{ __html: processTextForHighlighting(promptText) }}
           ></textarea>
           <div className="textarea-controls">
             <span className="markdown-hint">
@@ -260,7 +233,7 @@ const PopupPreview: React.FC = () => {
             Cancel
           </button>
           <button type="submit" id="save-prompt" className="button primary">
-            {editingPromptId ? 'Update Prompt' : 'Save Prompt'}
+            Copy
           </button>
         </div>
       </form>
