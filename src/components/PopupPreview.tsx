@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
@@ -211,19 +212,9 @@ const PopupPreview: React.FC = () => {
     <div id="create-container" className={`tab-content ${currentTab === 'create' ? 'active' : ''}`}>
       <form id="prompt-form" onSubmit={handleSavePrompt}>
         <div className="form-group">
-          <label htmlFor="prompt-title">Title *</label>
-          <input 
-            type="text" 
-            id="prompt-title" 
-            placeholder="Enter a descriptive title" 
-            maxLength={100} 
-            required
-            value={promptTitle}
-            onChange={(e) => setPromptTitle(e.target.value)}
-          />
-          <div className="char-counter">
-            <span id="title-counter">{promptTitle.length}</span>/100
-          </div>
+          <label htmlFor="prompt-title">Title</label>
+          <div className="static-field prompt-title">{promptTitle}</div>
+          {promptAuthor && <div className="static-field prompt-author">By {promptAuthor}</div>}
         </div>
 
         <div className="form-group">
@@ -238,17 +229,6 @@ const PopupPreview: React.FC = () => {
           <div className="textarea-controls">
             <span className="markdown-hint">Supports markdown formatting</span>
           </div>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="prompt-author">Author</label>
-          <input 
-            type="text" 
-            id="prompt-author" 
-            placeholder="Your name (optional)"
-            value={promptAuthor}
-            onChange={(e) => setPromptAuthor(e.target.value)}
-          />
         </div>
 
         <div className="form-actions">
@@ -285,8 +265,8 @@ const PopupPreview: React.FC = () => {
     <div className="container">
       <header>
         <div className="logo">
-          <img src="/icons/icon48.png" alt="PromptPal Logo" />
-          <h1>PromptPal</h1>
+          <img src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" alt="Wisp Logo" />
+          <h1>Wisp</h1>
         </div>
         <div className="tabs">
           <button 

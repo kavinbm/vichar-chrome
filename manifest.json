@@ -1,7 +1,7 @@
 
 {
   "manifest_version": 3,
-  "name": "PromptPal",
+  "name": "Wisp",
   "version": "1.0.0",
   "description": "Efficiently manage your AI prompts",
   "permissions": [

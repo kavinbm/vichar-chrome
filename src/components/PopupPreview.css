@@ -44,3 +44,29 @@
 .nav-buttons {
   display: none;
 }
+
+/* Styling for static fields in Use section */
+.static-field {
+  padding: 10px 12px;
+  background-color: #f9fafb;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+.static-field.prompt-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.static-field.prompt-author {
+  margin-top: 6px;
+  color: var(--light-text);
+  font-size: 12px;
+  border-top: none;
+  margin-top: -4px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
