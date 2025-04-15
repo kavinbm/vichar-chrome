@@ -21,11 +21,13 @@
 
 .extension-container {
   width: 550px; /* Increased from 450px to 550px */
+  height: 750px; /* Increased by 50% from 500px */
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: white;
   overflow: hidden;
+  max-height: 90vh; /* Ensure it doesn't exceed window height */
 }
 
 .preview-info {
@@ -48,7 +50,7 @@
 /* Styling for static fields in Use section */
 .static-field {
   padding: 10px 12px;
-  background-color: #f9fafb;
+  background-color: transparent;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
   font-size: 14px;
@@ -65,8 +67,48 @@
   margin-top: 6px;
   color: var(--light-text);
   font-size: 12px;
-  border-top: none;
+  border: none;
   margin-top: -4px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  padding-left: 12px;
+}
+
+/* Feedback popover styling */
+.feedback-container {
+  padding: 12px;
+  width: 100%;
+}
+
+.feedback-textarea {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  resize: vertical;
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Make the Create container flexible */
+#create-container {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(750px - 115px); /* Adjust based on header height */
+  overflow-y: auto;
+}
+
+#prompt-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-actions {
+  margin-top: auto;
+  padding-top: 16px;
 }

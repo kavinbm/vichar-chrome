@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
+import { Settings, MessageSquare } from 'lucide-react';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -28,6 +30,7 @@ const PopupPreview: React.FC = () => {
   const [promptTitle, setPromptTitle] = useState<string>('');
   const [promptText, setPromptText] = useState<string>('');
   const [promptAuthor, setPromptAuthor] = useState<string>('');
+  const [feedbackText, setFeedbackText] = useState<string>('');
 
   // Load prompts on mount
   useEffect(() => {
@@ -131,6 +134,15 @@ const PopupPreview: React.FC = () => {
     setCurrentTab('prompts');
   };
 
+  const handleSubmitFeedback = () => {
+    if (feedbackText.trim()) {
+      showToast('Feedback submitted. Thank you!', 'success');
+      setFeedbackText('');
+    } else {
+      showToast('Please enter your feedback', 'error');
+    }
+  };
+
   const showToast = (message: string, type: string = '') => {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
@@ -217,7 +229,7 @@ const PopupPreview: React.FC = () => {
           {promptAuthor && <div className="static-field prompt-author">By {promptAuthor}</div>}
         </div>
 
-        <div className="form-group">
+        <div className="form-group flex-grow">
           <label htmlFor="prompt-text">Prompt *</label>
           <textarea 
             id="prompt-text" 
@@ -261,6 +273,52 @@ const PopupPreview: React.FC = () => {
     </div>
   );
 
+  const renderTopActions = () => (
+    <div className="top-actions" style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <button className="action-button" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <MessageSquare size={16} />
+            <span>Feedback</span>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="feedback-container">
+            <h3 className="text-sm font-medium mb-2">Share your feedback</h3>
+            <textarea 
+              className="feedback-textarea"
+              placeholder="How can we improve Wisp?"
+              value={feedbackText}
+              onChange={(e) => setFeedbackText(e.target.value)}
+            />
+            <div className="feedback-actions">
+              <button 
+                className="button secondary"
+                onClick={() => setFeedbackText('')}
+              >
+                Cancel
+              </button>
+              <button 
+                className="button primary"
+                onClick={handleSubmitFeedback}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+      
+      <button 
+        className="action-button settings"
+        onClick={() => setCurrentTab('settings')}
+        style={{ display: 'flex', alignItems: 'center', padding: '4px' }}
+      >
+        <Settings size={20} />
+      </button>
+    </div>
+  );
+
   return (
     <div className="container">
       <header>
@@ -268,28 +326,24 @@ const PopupPreview: React.FC = () => {
           <img src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" alt="Wisp Logo" />
           <h1>Wisp</h1>
         </div>
-        <div className="tabs">
-          <button 
-            id="tab-prompts" 
-            className={`tab-button ${currentTab === 'prompts' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('prompts')}
-          >
-            Quick Access
-          </button>
-          <button 
-            id="tab-create" 
-            className={`tab-button ${currentTab === 'create' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('create')}
-          >
-            Use
-          </button>
-          <button 
-            id="tab-settings" 
-            className={`tab-button ${currentTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('settings')}
-          >
-            Settings
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div className="tabs">
+            <button 
+              id="tab-prompts" 
+              className={`tab-button ${currentTab === 'prompts' ? 'active' : ''}`}
+              onClick={() => setCurrentTab('prompts')}
+            >
+              Quick Access
+            </button>
+            <button 
+              id="tab-create" 
+              className={`tab-button ${currentTab === 'create' ? 'active' : ''}`}
+              onClick={() => setCurrentTab('create')}
+            >
+              Use
+            </button>
+          </div>
+          {renderTopActions()}
         </div>
       </header>
 
