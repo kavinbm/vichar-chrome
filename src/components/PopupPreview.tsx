@@ -223,13 +223,13 @@ const PopupPreview: React.FC = () => {
     <div id="create-container" className={`tab-content ${currentTab === 'create' ? 'active' : ''}`}>
       <form id="prompt-form" onSubmit={handleSavePrompt}>
         <div className="form-group">
-          <label htmlFor="prompt-title">Title</label>
-          <div className="static-field prompt-title">{promptTitle}</div>
+          <div className="static-field prompt-title" style={{ backgroundColor: '#D6BCFA' }}>
+            {promptTitle || 'Enter a descriptive [prompt name]'}
+          </div>
           {promptAuthor && <div className="static-field prompt-author">By {promptAuthor}</div>}
         </div>
 
         <div className="form-group flex-grow">
-          <label htmlFor="prompt-text">Prompt *</label>
           <textarea 
             id="prompt-text" 
             placeholder="Enter your prompt text here..." 
@@ -238,7 +238,9 @@ const PopupPreview: React.FC = () => {
             onChange={(e) => setPromptText(e.target.value)}
           ></textarea>
           <div className="textarea-controls">
-            <span className="markdown-hint">Supports markdown formatting</span>
+            <span className="markdown-hint">
+              Supports markdown formatting. Highlight <span style={{ backgroundColor: '#D6BCFA' }}>[your input]</span> for user interaction points
+            </span>
           </div>
         </div>
 
