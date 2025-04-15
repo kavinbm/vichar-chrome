@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
 import { Settings, MessageSquare } from 'lucide-react';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -273,8 +274,9 @@ const PopupPreview: React.FC = () => {
     </div>
   );
 
-  const renderTopActions = () => (
-    <div className="top-actions" style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>
+  // Fixed Feedback button and popover component
+  const FeedbackButton = () => (
+    <TooltipProvider>
       <Popover>
         <PopoverTrigger asChild>
           <button className="action-button" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -282,7 +284,7 @@ const PopupPreview: React.FC = () => {
             <span>Feedback</span>
           </button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent className="w-80">
           <div className="feedback-container">
             <h3 className="text-sm font-medium mb-2">Share your feedback</h3>
             <textarea 
@@ -308,6 +310,12 @@ const PopupPreview: React.FC = () => {
           </div>
         </PopoverContent>
       </Popover>
+    </TooltipProvider>
+  );
+
+  const renderTopActions = () => (
+    <div className="top-actions" style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>
+      <FeedbackButton />
       
       <button 
         className="action-button settings"
