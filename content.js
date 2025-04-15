@@ -1,5 +1,5 @@
 /**
- * PromptPal Content Script
+ * Vichar Content Script
  * 
  * This script is injected into web pages to detect LLM input fields
  * and provide paste functionality for prompts.
@@ -122,8 +122,8 @@ function detectInputFields() {
           }
           
           // Add special class and data attribute to identified inputs
-          input.classList.add('promptpal-detected-input');
-          input.dataset.promptpalDetected = 'true';
+          input.classList.add('vichar-detected-input');
+          input.dataset.vicharDetected = 'true';
         }
       }
     }
@@ -138,8 +138,8 @@ function handleFocusIn(e) {
   const input = e.target;
   
   // Check if this is a detected input
-  if (input.classList.contains('promptpal-detected-input') || 
-      input.dataset.promptpalDetected === 'true') {
+  if (input.classList.contains('vichar-detected-input') || 
+      input.dataset.vicharDetected === 'true') {
     activeInput = input;
   }
 }

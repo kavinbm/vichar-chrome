@@ -1,17 +1,17 @@
 
 /**
- * PromptPal Background Script
+ * Vichar Background Script
  */
 
 // Initial setup when extension is installed or updated
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
     // First time installation
-    console.log('PromptPal extension installed');
+    console.log('Vichar extension installed');
     
     // Initialize storage with empty prompts array
     chrome.storage.local.set({ 
-      'promptpal_data': { 
+      'vichar_data': { 
         prompts: [],
         settings: {
           autoDetectInputs: true
