@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
+import { PlusCircle, Clock, User } from 'lucide-react';
 
 interface Prompt {
   id: string;
@@ -25,36 +27,59 @@ const PromptsList: React.FC<PromptsListProps> = ({
 }) => {
   return (
     <div id="prompts-container" className="tab-content active">
-      <ScrollArea className="h-full">
-        <div id="prompts-list" className="prompts-list">
+      <ScrollArea className="h-full pr-4">
+        <div id="prompts-list" className="prompts-list space-y-4 py-4">
           {prompts.length === 0 ? (
-            <div className="empty-state">
-              <p>No prompts found. Create your first prompt!</p>
-              <button className="button primary" onClick={() => onUsePrompt('')}>Use Prompt</button>
+            <div className="empty-state bg-muted/50 rounded-lg p-8 text-center">
+              <p className="text-muted-foreground mb-4">No prompts found. Create your first prompt!</p>
+              <button 
+                className="button primary inline-flex items-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md px-4 py-2 transition-colors"
+                onClick={() => onUsePrompt('')}
+              >
+                <PlusCircle className="h-4 w-4" />
+                <span>Use Prompt</span>
+              </button>
             </div>
           ) : (
             prompts.map(prompt => (
-              <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => onUsePrompt(prompt.id)}>
-                <div className="prompt-header">
-                  <div className="prompt-title">{prompt.title}</div>
-                  <div className="prompt-actions">
-                    <button 
-                      className="action-button edit" 
-                      onClick={(e) => { 
-                        e.stopPropagation(); 
-                        onUsePrompt(prompt.id); 
-                      }}
-                    >
-                      Use
-                    </button>
+              <Card 
+                key={prompt.id} 
+                data-id={prompt.id}
+                className="prompt-item border-2 hover:border-primary/50 transition-all duration-300 cursor-pointer hover:shadow-md animate-fade-in"
+                onClick={() => onUsePrompt(prompt.id)}
+              >
+                <CardHeader className="pb-2 pt-4">
+                  <div className="flex justify-between items-start">
+                    <h3 className="prompt-title font-semibold text-lg text-left">{prompt.title}</h3>
+                    <div className="prompt-actions">
+                      <button 
+                        className="action-button edit bg-primary text-primary-foreground rounded-md px-3 py-1 text-sm hover:bg-primary/90 transition-colors" 
+                        onClick={(e) => { 
+                          e.stopPropagation(); 
+                          onUsePrompt(prompt.id); 
+                        }}
+                      >
+                        Use
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="prompt-preview">{truncateText(prompt.text, 100)}</div>
-                <div className="prompt-meta">
-                  {prompt.author && <div>By {prompt.author}</div>}
-                  <div>{formatDate(prompt.createdAt)}</div>
-                </div>
-              </div>
+                </CardHeader>
+                <CardContent className="pt-0 pb-3">
+                  <p className="prompt-preview text-muted-foreground text-sm leading-relaxed">{truncateText(prompt.text, 100)}</p>
+                </CardContent>
+                <CardFooter className="pt-0 pb-3 text-xs text-muted-foreground flex justify-between items-center border-t border-border/30 mt-1 pt-2">
+                  {prompt.author && (
+                    <div className="flex items-center gap-1">
+                      <User className="h-3 w-3" />
+                      <span>{prompt.author}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1 ml-auto">
+                    <Clock className="h-3 w-3" />
+                    <span>{formatDate(prompt.createdAt)}</span>
+                  </div>
+                </CardFooter>
+              </Card>
             ))
           )}
         </div>
