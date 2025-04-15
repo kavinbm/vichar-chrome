@@ -1,3 +1,4 @@
+
 /* Import the original popup.css styles */
 @import url('../../popup.css');
 
@@ -89,7 +90,7 @@
 
 .prompt-textarea {
   width: 100%;
-  min-height: 150px;
+  min-height: 225px; /* Increased by 50% from 150px */
   resize: vertical;
   font-family: inherit;
   font-size: inherit;
@@ -177,4 +178,15 @@
 .form-actions {
   margin-top: auto;
   padding-top: 16px;
+}
+
+/* Make prompts list scrollable within the container */
+#prompts-container {
+  max-height: calc(750px - 115px); /* Adjust based on header and search container height */
+  overflow-y: auto;
+}
+
+.prompts-list {
+  height: 100%;
+  overflow-y: visible; /* Allow content to scroll within the parent container */
 }

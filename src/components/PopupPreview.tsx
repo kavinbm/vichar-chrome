@@ -5,6 +5,7 @@ import { Settings, MessageSquare } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { processTextForHighlighting } from '../utils/textHighlighter';
 import { Textarea } from '@/components/ui/textarea';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -190,32 +191,34 @@ const PopupPreview: React.FC = () => {
 
   const renderPromptsTab = () => (
     <div id="prompts-container" className={`tab-content ${currentTab === 'prompts' ? 'active' : ''}`}>
-      <div id="prompts-list" className="prompts-list">
-        {filteredPrompts.length === 0 ? (
-          <div className="empty-state">
-            <p>No prompts found. Create your first prompt!</p>
-            <button className="button primary" onClick={() => setCurrentTab('create')}>Use Prompt</button>
-          </div>
-        ) : (
-          filteredPrompts.map(prompt => (
-            <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => handleUsePrompt(prompt.id)}>
-              <div className="prompt-header">
-                <div className="prompt-title">{prompt.title}</div>
-                <div className="prompt-actions">
-                  <button className="action-button edit" onClick={(e) => { e.stopPropagation(); handleUsePrompt(prompt.id); }}>
-                    Use
-                  </button>
+      <ScrollArea className="h-full">
+        <div id="prompts-list" className="prompts-list">
+          {filteredPrompts.length === 0 ? (
+            <div className="empty-state">
+              <p>No prompts found. Create your first prompt!</p>
+              <button className="button primary" onClick={() => setCurrentTab('create')}>Use Prompt</button>
+            </div>
+          ) : (
+            filteredPrompts.map(prompt => (
+              <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => handleUsePrompt(prompt.id)}>
+                <div className="prompt-header">
+                  <div className="prompt-title">{prompt.title}</div>
+                  <div className="prompt-actions">
+                    <button className="action-button edit" onClick={(e) => { e.stopPropagation(); handleUsePrompt(prompt.id); }}>
+                      Use
+                    </button>
+                  </div>
+                </div>
+                <div className="prompt-preview">{truncateText(prompt.text, 100)}</div>
+                <div className="prompt-meta">
+                  {prompt.author && <div>By {prompt.author}</div>}
+                  <div>{formatDate(prompt.createdAt)}</div>
                 </div>
               </div>
-              <div className="prompt-preview">{truncateText(prompt.text, 100)}</div>
-              <div className="prompt-meta">
-                {prompt.author && <div>By {prompt.author}</div>}
-                <div>{formatDate(prompt.createdAt)}</div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      </ScrollArea>
     </div>
   );
 
