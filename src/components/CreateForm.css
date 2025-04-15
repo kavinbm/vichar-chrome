@@ -1,0 +1,48 @@
+
+/* CreateForm specific styles */
+.highlighted-text-display {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  padding: 12px;
+  border: 1px dashed var(--border);
+  background-color: var(--muted);
+  min-height: 150px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Animation for prompt tag highlighting */
+@keyframes highlight-pulse {
+  0% { background-color: hsl(var(--primary)/10%); }
+  50% { background-color: hsl(var(--primary)/20%); }
+  100% { background-color: hsl(var(--primary)/10%); }
+}
+
+.highlighted-text-display [data-highlight] {
+  background-color: hsl(var(--primary)/10%);
+  border-radius: 3px;
+  padding: 0 4px;
+  animation: highlight-pulse 2s infinite;
+  border: 1px solid hsl(var(--primary)/30%);
+}
+
+/* Toast animation */
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success [data-success] {
+  display: block;
+}
+
+.toast.error [data-error] {
+  display: block;
+}
+
+/* Make sure the textarea and highlighted view have consistent styling */
+.prompt-textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1.6;
+}

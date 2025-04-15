@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
+import './CreateForm.css';
 import { dummyPrompts } from '../data/dummyData';
 import { processTextForHighlighting } from '../utils/textHighlighter';
 import Header from './Header';
