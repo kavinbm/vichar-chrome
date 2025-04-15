@@ -1,4 +1,3 @@
-
 /**
  * PromptPal Popup Script
  */
@@ -29,11 +28,10 @@ async function init() {
  * Set up all event listeners
  */
 function setupEventListeners() {
-  // Tab navigation
-  document.getElementById('tab-prompts').addEventListener('click', () => switchTab('prompts'));
-  document.getElementById('tab-create').addEventListener('click', () => switchTab('create'));
-  document.getElementById('tab-settings').addEventListener('click', () => switchTab('settings'));
+  // Navigation events
   document.getElementById('create-first-prompt').addEventListener('click', () => switchTab('create'));
+  document.getElementById('back-to-prompts').addEventListener('click', () => switchTab('prompts'));
+  document.getElementById('back-from-settings').addEventListener('click', () => switchTab('prompts'));
   
   // Form events
   document.getElementById('prompt-form').addEventListener('submit', handleSavePrompt);
@@ -64,11 +62,6 @@ function setupEventListeners() {
  * @param {string} tabName Tab to switch to
  */
 function switchTab(tabName) {
-  // Update active tab button
-  document.querySelectorAll('.tab-button').forEach(btn => {
-    btn.classList.toggle('active', btn.id === `tab-${tabName}`);
-  });
-  
   // Show active tab content
   document.querySelectorAll('.tab-content').forEach(content => {
     content.classList.remove('active');
@@ -390,3 +383,219 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+/**
+ * Copy text to clipboard
+ * @param {string} text Text to copy
+ */
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+    throw new Error('Failed to copy to clipboard');
+  }
+}
+
+/**
+ * Save prompt to storage
+ * @param {object} promptData Prompt data
+ */
+async function savePrompt(promptData) {
+  const prompts = await getPrompts();
+  const newPrompt = {
+    id: generateId(),
+    createdAt: new Date().toISOString(),
+    ...promptData
+  };
+  prompts.push(newPrompt);
+  await setPrompts(prompts);
+}
+
+/**
+ * Update prompt in storage
+ * @param {string} id Prompt ID to update
+ * @param {object} promptData Prompt data
+ */
+async function updatePrompt(id, promptData) {
+  let prompts = await getPrompts();
+  prompts = prompts.map(prompt => {
+    if (prompt.id === id) {
+      return {
+        ...prompt,
+        ...promptData
+      };
+    }
+    return prompt;
+  });
+  await setPrompts(prompts);
+}
+
+/**
+ * Delete prompt from storage
+ * @param {string} id Prompt ID to delete
+ */
+async function deletePrompt(id) {
+  let prompts = await getPrompts();
+  prompts = prompts.filter(prompt => prompt.id !== id);
+  await setPrompts(prompts);
+}
+
+/**
+ * Get prompts from storage
+ * @returns {Array} Prompts array
+ */
+async function getPrompts() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['promptpal_data'], (result) => {
+      const data = result.promptpal_data || { prompts: [] };
+      resolve(data.prompts);
+    });
+  });
+}
+
+/**
+ * Set prompts in storage
+ * @param {Array} prompts Prompts array
+ */
+async function setPrompts(prompts) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set({ promptpal_data: { prompts } }, () => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
+/**
+ * Search prompts
+ * @param {string} query Search query
+ * @returns {Array} Filtered prompts
+ */
+async function searchPrompts(query) {
+  const prompts = await getPrompts();
+  
+  if (!query) {
+    return prompts;
+  }
+  
+  const searchTerm = query.toLowerCase();
+  
+  return prompts.filter(prompt => {
+    return (
+      prompt.title.toLowerCase().includes(searchTerm) ||
+      prompt.text.toLowerCase().includes(searchTerm)
+    );
+  });
+}
+
+/**
+ * Export prompts to JSON
+ * @returns {string} JSON string
+ */
+async function exportPrompts() {
+  const prompts = await getPrompts();
+  return JSON.stringify(prompts, null, 2);
+}
+
+/**
+ * Import prompts from JSON
+ * @param {string} data JSON string
+ */
+async function importPrompts(data) {
+  try {
+    const prompts = JSON.parse(data);
+    
+    if (!Array.isArray(prompts)) {
+      throw new Error('Invalid data format. Expected an array of prompts.');
+    }
+    
+    // Validate each prompt
+    for (const prompt of prompts) {
+      if (typeof prompt !== 'object' || !prompt.title || !prompt.text) {
+        throw new Error('Invalid prompt format. Each prompt must have a title and text.');
+      }
+    }
+    
+    await setPrompts(prompts);
+  } catch (error) {
+    console.error('Import error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Show toast message
+ * @param {string} message Message to show
+ * @param {string} type Type of toast (success, error)
+ */
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toast-message');
+  
+  if (toast && toastMessage) {
+    toast.className = 'toast';
+    if (type) {
+      toast.classList.add(type);
+    }
+    
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+}
+
+/**
+ * Truncate text to a maximum length
+ * @param {string} text Text to truncate
+ * @param {number} maxLength Maximum length
+ * @returns {string} Truncated text
+ */
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+}
+
+/**
+ * Format date to relative time
+ * @param {string} dateString Date string
+ * @returns {string} Relative time string
+ */
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSecs = Math.floor(diffMs / 1000);
+  const diffMins = Math.floor(diffSecs / 60);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  
+  if (diffDays > 30) {
+    return date.toLocaleDateString();
+  } else if (diffDays > 0) {
+    return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+  } else if (diffHours > 0) {
+    return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+  } else if (diffMins > 0) {
+    return `${diffMins} minute${diffMins === 1 ? '' : 's'} ago`;
+  } else {
+    return 'Just now';
+  }
+}
+
+/**
+ * Generate a unique ID
+ * @returns {string} Unique ID
+ */
+function generateId() {
+  return Math.random().toString(36).substring(2, 15);
+}
+
+// Constants
+const MAX_PROMPTS = 100;

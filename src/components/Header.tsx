@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { Settings, MessageSquare, Home, Pencil } from 'lucide-react';
+import { Settings, MessageSquare } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface HeaderProps {
   currentTab: string;
@@ -59,8 +58,8 @@ const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <header className="border-b border-border pb-1 pt-2">
-      <div className="flex items-center justify-between px-4 mb-3">
+    <header className="border-b border-border pb-3 pt-2">
+      <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <img 
             src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" 
@@ -71,33 +70,18 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         <div className="flex items-center gap-1">
           <FeedbackButton />
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => setCurrentTab('settings')}
-          >
-            <Settings size={16} />
-          </Button>
+          {currentTab === 'prompts' && (
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setCurrentTab('settings')}
+            >
+              <Settings size={16} />
+            </Button>
+          )}
         </div>
       </div>
-      
-      <Tabs 
-        value={currentTab} 
-        onValueChange={setCurrentTab}
-        className="w-full px-4"
-      >
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="prompts" className="flex items-center gap-1.5">
-            <Home size={14} />
-            <span>Quick Access</span>
-          </TabsTrigger>
-          <TabsTrigger value="create" className="flex items-center gap-1.5">
-            <Pencil size={14} />
-            <span>Use</span>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
     </header>
   );
 };

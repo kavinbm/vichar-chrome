@@ -1,9 +1,9 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check, X, FileText, User, Sparkles, Pencil } from 'lucide-react';
+import { Check, X, FileText, User, Sparkles, Pencil, ChevronLeft } from 'lucide-react';
 
 interface CreateFormProps {
   promptTitle: string;
@@ -13,6 +13,7 @@ interface CreateFormProps {
   handleSavePrompt: (e: React.FormEvent) => void;
   handleCancelEdit: () => void;
   highlightedView: string;
+  setCurrentTab: (tab: string) => void;
 }
 
 const CreateForm: React.FC<CreateFormProps> = ({
@@ -22,13 +23,24 @@ const CreateForm: React.FC<CreateFormProps> = ({
   setPromptText,
   handleSavePrompt,
   handleCancelEdit,
-  highlightedView
+  highlightedView,
+  setCurrentTab
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <div id="create-container" className="tab-content active">
-      <Card className="shadow-sm border-2 animate-fade-in">
+      <div className="border-b border-border p-3">
+        <Button
+          variant="ghost"
+          className="flex items-center gap-1 text-purple-500 hover:text-purple-700 hover:bg-purple-50"
+          onClick={() => setCurrentTab('prompts')}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          <span>Back to Quick Access</span>
+        </Button>
+      </div>
+      <Card className="shadow-sm border-2 animate-fade-in m-3">
         <CardHeader className="pb-2 space-y-2">
           <div className="flex items-start justify-between">
             <div className="space-y-1">

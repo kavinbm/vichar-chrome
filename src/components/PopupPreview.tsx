@@ -11,6 +11,8 @@ import PromptsList from './PromptsList';
 import CreateForm from './CreateForm';
 import SettingsPanel from './SettingsPanel';
 import Toast from './Toast';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft } from 'lucide-react';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -247,12 +249,23 @@ const PopupPreview: React.FC = () => {
             handleSavePrompt={handleSavePrompt}
             handleCancelEdit={handleCancelEdit}
             highlightedView={highlightedView}
+            setCurrentTab={setCurrentTab}
           />
         </div>
       )}
       
       {currentTab === 'settings' && (
         <div className="flex-1 overflow-auto">
+          <div className="border-b border-border p-3">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-1 text-purple-500 hover:text-purple-700 hover:bg-purple-50"
+              onClick={() => setCurrentTab('prompts')}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              <span>Back to Quick Access</span>
+            </Button>
+          </div>
           <SettingsPanel promptCount={allPrompts.length} />
         </div>
       )}

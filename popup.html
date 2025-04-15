@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,6 @@
       <div class="logo">
         <img src="icons/icon48.png" alt="Wisp Logo">
         <h1>Wisp</h1>
-      </div>
-      <div class="tabs">
-        <button id="tab-prompts" class="tab-button active">Quick Access</button>
-        <button id="tab-create" class="tab-button text-purple-600">Use</button>
-        <button id="tab-settings" class="tab-button">Settings</button>
       </div>
     </header>
 
@@ -36,6 +32,11 @@
     </div>
 
     <div id="create-container" class="tab-content">
+      <div class="back-button-container">
+        <button id="back-to-prompts" class="back-button">
+          <span class="back-icon">←</span> Back to Quick Access
+        </button>
+      </div>
       <form id="prompt-form">
         <div class="form-group">
           <label for="prompt-title">Title *</label>
@@ -64,6 +65,11 @@
     </div>
 
     <div id="settings-container" class="tab-content">
+      <div class="back-button-container">
+        <button id="back-from-settings" class="back-button">
+          <span class="back-icon">←</span> Back to Quick Access
+        </button>
+      </div>
       <div class="settings-group">
         <h3>Data Management</h3>
         <div class="settings-actions">

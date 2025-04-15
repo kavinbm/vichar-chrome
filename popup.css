@@ -12,6 +12,7 @@
   --radius: 6px;
   --prompt-border-color: #8E9196;  /* Darker neutral gray border */
   --light-purple-highlight: #D6BCFA;
+  --purple-color: #9b87f5;
 }
 
 * {
@@ -46,7 +47,7 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 
 .logo img {
@@ -61,31 +62,31 @@ header {
   color: var(--primary-color);
 }
 
-.tabs {
+.back-button-container {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.back-button {
   display: flex;
-  gap: 8px;
-}
-
-.tab-button {
-  border: none;
+  align-items: center;
   background: none;
-  padding: 8px 16px;
-  border-radius: var(--radius);
+  border: none;
+  color: var(--purple-color);
   font-weight: 500;
-  color: var(--light-text);
   cursor: pointer;
-  transition: all 0.2s ease;
-  transition: color 0.3s ease;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+  font-size: 14px;
 }
 
-.tab-button:hover {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
+.back-button:hover {
+  color: var(--primary-color);
 }
 
-.tab-button.active {
-  background-color: var(--primary-color);
-  color: white;
+.back-icon {
+  margin-right: 8px;
+  font-size: 16px;
 }
 
 .search-container {
@@ -204,6 +205,10 @@ header {
 
 .action-button.settings:hover {
   background-color: var(--secondary-color);
+}
+
+.action-button.edit {
+  color: var(--purple-color);
 }
 
 .prompt-preview {
