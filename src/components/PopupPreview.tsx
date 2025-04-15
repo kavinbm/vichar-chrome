@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
 import { Settings, MessageSquare } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { processTextForHighlighting } from '../utils/textHighlighter';
+import { Textarea } from '@/components/ui/textarea';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -32,10 +33,18 @@ const PopupPreview: React.FC = () => {
   const [promptAuthor, setPromptAuthor] = useState<string>('');
   const [feedbackText, setFeedbackText] = useState<string>('');
 
+  const [highlightedView, setHighlightedView] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   // Load prompts on mount
   useEffect(() => {
     loadPrompts();
   }, []);
+
+  // Update highlighted view when prompt text changes
+  useEffect(() => {
+    setHighlightedView(processTextForHighlighting(promptText));
+  }, [promptText]);
 
   // Filter prompts when search query changes
   useEffect(() => {
@@ -169,6 +178,16 @@ const PopupPreview: React.FC = () => {
     }
   };
 
+  // Create a display element for the highlighted text view
+  const HighlightedTextDisplay = () => {
+    return (
+      <div 
+        className="highlighted-text-display" 
+        dangerouslySetInnerHTML={{ __html: highlightedView }}
+      />
+    );
+  };
+
   const renderPromptsTab = () => (
     <div id="prompts-container" className={`tab-content ${currentTab === 'prompts' ? 'active' : ''}`}>
       <div id="prompts-list" className="prompts-list">
@@ -212,15 +231,18 @@ const PopupPreview: React.FC = () => {
 
         <div className="form-group flex-grow">
           <label htmlFor="prompt-text" className="prompt-label">Prompt</label>
-          <textarea 
-            id="prompt-text" 
-            placeholder="Enter your prompt text here..." 
-            required
-            value={promptText}
-            onChange={(e) => setPromptText(e.target.value)}
-            className="prompt-textarea"
-            dangerouslySetInnerHTML={{ __html: processTextForHighlighting(promptText) }}
-          ></textarea>
+          <div className="textarea-container">
+            <Textarea 
+              id="prompt-text" 
+              placeholder="Enter your prompt text here..." 
+              required
+              value={promptText}
+              onChange={(e) => setPromptText(e.target.value)}
+              className="prompt-textarea"
+              ref={textareaRef}
+            />
+            <HighlightedTextDisplay />
+          </div>
           <div className="textarea-controls">
             <span className="markdown-hint">
               Supports markdown formatting. Highlight <span style={{ backgroundColor: 'var(--light-purple-highlight)' }}>[your input]</span> for user interaction points

@@ -9,9 +9,13 @@ export const processTextForHighlighting = (text: string): string => {
   
   // Find all instances of text in square brackets and wrap them
   // with a span that has the highlight class
-  return text.replace(/\[([^\]]+)\]/g, (match, content) => {
-    return `<span class="user-input-highlight">[${content}]</span>`;
-  });
+  const processed = text
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br />')
+    .replace(/\[([^\]]+)\]/g, '<span class="user-input-highlight">[$1]</span>');
+  
+  return processed;
 };
 
 /**
