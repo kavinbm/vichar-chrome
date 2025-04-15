@@ -205,7 +205,7 @@ const PopupPreview: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container flex flex-col h-full bg-background">
       <Header 
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -214,42 +214,47 @@ const PopupPreview: React.FC = () => {
         handleSubmitFeedback={handleSubmitFeedback}
       />
 
-      <SearchBar 
-        searchQuery={searchQuery} 
-        setSearchQuery={setSearchQuery} 
-        promptCount={filteredPrompts.length} 
-      />
-
       {currentTab === 'prompts' && (
         <>
+          <SearchBar 
+            searchQuery={searchQuery} 
+            setSearchQuery={setSearchQuery} 
+            promptCount={filteredPrompts.length} 
+          />
           <CategoriesSection 
             categories={getCategories()} 
             selectedCategory={selectedCategory} 
             onCategoryClick={handleCategoryClick} 
           />
-          <PromptsList 
-            prompts={filteredPrompts} 
-            onUsePrompt={handleUsePrompt} 
-            truncateText={truncateText}
-            formatDate={formatDate}
-          />
+          <div className="flex-1 overflow-auto">
+            <PromptsList 
+              prompts={filteredPrompts} 
+              onUsePrompt={handleUsePrompt} 
+              truncateText={truncateText}
+              formatDate={formatDate}
+            />
+          </div>
         </>
       )}
       
       {currentTab === 'create' && (
-        <CreateForm 
-          promptTitle={promptTitle}
-          promptText={promptText}
-          promptAuthor={promptAuthor}
-          setPromptText={setPromptText}
-          handleSavePrompt={handleSavePrompt}
-          handleCancelEdit={handleCancelEdit}
-          highlightedView={highlightedView}
-        />
+        <div className="flex-1 overflow-auto">
+          <CreateForm 
+            promptTitle={promptTitle}
+            promptText={promptText}
+            promptAuthor={promptAuthor}
+            setPromptText={setPromptText}
+            handleSavePrompt={handleSavePrompt}
+            handleCancelEdit={handleCancelEdit}
+            highlightedView={highlightedView}
+          />
+        </div>
       )}
       
       {currentTab === 'settings' && (
-        <SettingsPanel promptCount={allPrompts.length} />
+        <div className="flex-1 overflow-auto">
+          <SettingsPanel promptCount={allPrompts.length} />
+        </div>
       )}
 
       <Toast id="toast" />
