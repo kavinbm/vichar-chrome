@@ -1,226 +1,24 @@
 
-/* Import the original popup.css styles */
-@import url('../../popup.css');
-
-/* Additional styles for the preview */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-  background-color: #f9fafb;
+/* Adjust the prompt item background to be lighter */
+.prompt-item {
+  background-color: #f9fafb; /* Already very light, but we'll make it even lighter */
+  border-color: #f1f1f1; /* Using one of the light gray colors from the useful context */
 }
 
-.app-title {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: var(--primary-color);
-}
-
-.extension-container {
-  width: 550px; /* Increased from 450px to 550px */
-  height: 750px; /* Increased by 50% from 500px */
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  overflow: hidden;
-  max-height: 90vh; /* Ensure it doesn't exceed window height */
-}
-
-.preview-info {
-  margin-top: 20px;
-  max-width: 550px; /* Increased from 450px to 550px */
-  text-align: center;
-  color: #6b7280;
-}
-
-/* Left align prompt preview text */
-.prompt-preview {
-  text-align: left;
-}
-
-/* Remove navigation buttons from the bottom */
-.nav-buttons {
-  display: none;
-}
-
-/* Styling for static fields in Use section */
-.static-field {
-  padding: 10px 12px;
-  background-color: transparent;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  font-size: 14px;
-  color: var(--text-color);
-  margin-bottom: 4px;
-}
-
-.static-field.prompt-title {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.static-field.prompt-author {
-  margin-top: 6px;
-  color: var(--light-text);
-  font-size: 12px;
-  border: none;
-  margin-top: -4px;
-  padding-left: 12px;
-}
-
-/* Prompt label and textarea styling */
-.prompt-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-/* Textarea container styling for the highlight effect */
-.textarea-container {
-  position: relative;
-  width: 100%;
-  flex-grow: 1;
-  display: flex;
-}
-
-.prompt-textarea {
-  width: 100%;
-  min-height: 225px; /* Increased by 50% from 150px */
-  resize: vertical;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  z-index: 1;
-  background-color: transparent;
-  color: black;
-}
-
-.highlighted-text-display {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 10px 12px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-y: auto;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* User input highlight within textarea */
-.user-input-highlight {
-  background-color: var(--light-purple-highlight);
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-/* Custom styling for the prompt text when edited */
-#prompt-text::selection {
-  background-color: rgba(214, 188, 250, 0.5);
-}
-
-/* Style for square brackets content in the textarea */
-.prompt-textarea [contentEditable="true"] {
-  display: inline-block;
-  background-color: var(--light-purple-highlight);
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-/* Feedback popover styling */
-.feedback-container {
-  padding: 12px;
-  width: 100%;
-}
-
-.feedback-textarea {
-  width: 100%;
-  min-height: 100px;
-  margin-bottom: 12px;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  resize: vertical;
-}
-
-.feedback-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-/* Make the Create container flexible */
-#create-container {
-  display: flex;
-  flex-direction: column;
-  max-height: calc(750px - 115px); /* Adjust based on header height */
-  overflow-y: auto;
-}
-
-#prompt-form {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.form-actions {
-  margin-top: auto;
-  padding-top: 16px;
-}
-
-/* Make prompts list scrollable within the container */
-#prompts-container {
-  max-height: calc(750px - 115px); /* Adjust based on header and search container height */
-  overflow-y: auto;
-}
-
-.prompts-list {
-  height: 100%;
-  overflow-y: visible; /* Allow content to scroll within the parent container */
-}
-
-/* Categories container below search bar */
+/* Add more space around the categories container */
 .categories-container {
-  padding: 0 16px 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  padding: 12px 16px; /* Increased vertical padding */
+  margin-bottom: 12px; /* Add space below the categories */
   border-bottom: 1px solid var(--border-color);
 }
 
-.category-tag {
-  padding: 4px 10px;
-  background-color: #f3f4f6;
-  border-radius: 16px;
-  font-size: 12px;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.category-tag:hover {
-  background-color: #e5e7eb;
-}
-
-.category-tag.active {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-/* Make the prompt rectangles lighter */
-.prompt-item {
-  background-color: #f9fafb; /* Lighter background color */
-  border-color: #e5e7eb; /* Lighter border color */
+/* Ensure consistent spacing in the search container */
+.search-container {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 12px; /* Added to create equal space above and below */
 }
