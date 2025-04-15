@@ -190,3 +190,37 @@
   height: 100%;
   overflow-y: visible; /* Allow content to scroll within the parent container */
 }
+
+/* Categories container below search bar */
+.categories-container {
+  padding: 0 16px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.category-tag {
+  padding: 4px 10px;
+  background-color: #f3f4f6;
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-tag:hover {
+  background-color: #e5e7eb;
+}
+
+.category-tag.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Make the prompt rectangles lighter */
+.prompt-item {
+  background-color: #f9fafb; /* Lighter background color */
+  border-color: #e5e7eb; /* Lighter border color */
+}

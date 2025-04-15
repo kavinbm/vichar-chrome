@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
@@ -33,6 +34,7 @@ const PopupPreview: React.FC = () => {
   const [promptText, setPromptText] = useState<string>('');
   const [promptAuthor, setPromptAuthor] = useState<string>('');
   const [feedbackText, setFeedbackText] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const [highlightedView, setHighlightedView] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -47,13 +49,16 @@ const PopupPreview: React.FC = () => {
     setHighlightedView(processTextForHighlighting(promptText));
   }, [promptText]);
 
-  // Filter prompts when search query changes
+  // Filter prompts when search query or selected category changes
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredPrompts(allPrompts);
-    } else {
+    if (allPrompts.length === 0) return;
+    
+    let filtered = [...allPrompts];
+    
+    // Filter by search query
+    if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
-      const results = allPrompts
+      filtered = filtered
         .map(prompt => {
           const titleMatch = prompt.title.toLowerCase().includes(query);
           const contentMatch = prompt.text.toLowerCase().includes(query);
@@ -66,10 +71,17 @@ const PopupPreview: React.FC = () => {
         })
         .filter(prompt => prompt.score > 0)
         .sort((a, b) => b.score - a.score);
-      
-      setFilteredPrompts(results);
     }
-  }, [searchQuery, allPrompts]);
+    
+    // Filter by category
+    if (selectedCategory) {
+      filtered = filtered.filter(prompt => 
+        prompt.author.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+    
+    setFilteredPrompts(filtered);
+  }, [searchQuery, selectedCategory, allPrompts]);
 
   const loadPrompts = () => {
     chromeStorageMock.local.get(['promptpal_data'], (result) => {
@@ -77,6 +89,17 @@ const PopupPreview: React.FC = () => {
       setAllPrompts(data.prompts);
       setFilteredPrompts(data.prompts);
     });
+  };
+
+  // Get unique categories (authors)
+  const getCategories = () => {
+    const categories = allPrompts
+      .map(prompt => prompt.author)
+      .filter((author, index, self) => 
+        author && self.indexOf(author) === index
+      )
+      .sort();
+    return categories;
   };
 
   // Function to highlight user input placeholders in square brackets
@@ -133,6 +156,14 @@ const PopupPreview: React.FC = () => {
     }
   };
 
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory('');
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
   const showToast = (message: string, type: string = '') => {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
@@ -186,6 +217,27 @@ const PopupPreview: React.FC = () => {
         className="highlighted-text-display" 
         dangerouslySetInnerHTML={{ __html: highlightedView }}
       />
+    );
+  };
+
+  // Categories section component
+  const CategoriesSection = () => {
+    const categories = getCategories();
+    
+    if (categories.length === 0) return null;
+    
+    return (
+      <div className="categories-container">
+        {categories.map((category, index) => (
+          <div 
+            key={index} 
+            className={`category-tag ${selectedCategory === category ? 'active' : ''}`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            {category}
+          </div>
+        ))}
+      </div>
     );
   };
 
@@ -375,6 +427,7 @@ const PopupPreview: React.FC = () => {
         </div>
       </div>
 
+      {currentTab === 'prompts' && <CategoriesSection />}
       {currentTab === 'prompts' && renderPromptsTab()}
       {currentTab === 'create' && renderCreateTab()}
       {currentTab === 'settings' && renderSettingsTab()}
