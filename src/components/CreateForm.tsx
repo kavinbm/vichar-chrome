@@ -26,16 +26,6 @@ const CreateForm: React.FC<CreateFormProps> = ({
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Create a display element for the highlighted text view
-  const HighlightedTextDisplay = () => {
-    return (
-      <div 
-        className="highlighted-text-display rounded-md text-sm" 
-        dangerouslySetInnerHTML={{ __html: highlightedView }}
-      />
-    );
-  };
-
   return (
     <div id="create-container" className="tab-content active">
       <Card className="shadow-sm border-2 animate-fade-in">
@@ -67,7 +57,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
                 <Pencil className="h-4 w-4" />
                 Prompt
               </label>
-              <div className="textarea-container space-y-2">
+              <div className="textarea-container">
                 <Textarea 
                   id="prompt-text" 
                   placeholder="Enter your prompt text here..." 
@@ -77,7 +67,6 @@ const CreateForm: React.FC<CreateFormProps> = ({
                   className="prompt-textarea min-h-[200px] resize-y font-mono text-sm"
                   ref={textareaRef}
                 />
-                <HighlightedTextDisplay />
               </div>
               <div className="textarea-controls">
                 <span className="markdown-hint text-xs text-muted-foreground italic">
