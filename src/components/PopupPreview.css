@@ -1,8 +1,8 @@
 
 /* Base container styles */
 .container {
-  width: 550px;
-  min-height: 750px;
+  width: 380px;
+  min-height: 600px;
   max-height: 90vh;
 }
 
@@ -33,8 +33,8 @@
 
 /* Logo image */
 .logo-image {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -65,7 +65,7 @@
   overflow-wrap: break-word;
   padding: 10px 12px;
   border-radius: 6px;
-  min-height: 150px;
+  min-height: 120px;
   margin-top: 8px;
 }
 

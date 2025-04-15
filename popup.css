@@ -30,8 +30,8 @@ body {
 }
 
 .container {
-  width: 550px;
-  min-height: 750px;
+  width: 380px;
+  min-height: 600px;
   max-height: 90vh;
   overflow: hidden;
   display: flex;
@@ -308,14 +308,14 @@ textarea {
 }
 
 #create-container {
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 }
 
 #settings-container {
-  padding: 16px;
+  padding: 14px;
 }
 
 .button {
