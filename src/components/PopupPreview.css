@@ -13,6 +13,28 @@
   padding: 12px 16px;
   margin-bottom: 16px; /* Increased from 12px to 16px to match search container */
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-tag {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-tag.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.category-tag:hover {
+  background-color: var(--secondary-hover);
 }
 
 /* Add styling for the logo image */
@@ -21,4 +43,54 @@
   height: 28px;
   margin-right: 10px;
   object-fit: contain;
+}
+
+/* Add styles for the prompt list elements */
+.prompt-item {
+  text-align: left;
+}
+
+.prompt-title {
+  text-align: left;
+}
+
+.prompt-preview {
+  text-align: left;
+}
+
+.prompt-meta {
+  text-align: left;
+}
+
+.highlighted-text-display {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: white;
+  min-height: 150px;
+  margin-top: 8px;
+}
+
+.static-field {
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.prompt-label {
+  text-align: left;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.prompt-textarea {
+  width: 100%;
+  min-height: 150px;
 }
