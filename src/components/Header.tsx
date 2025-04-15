@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Settings, MessageSquare } from 'lucide-react';
+import { Settings, MessageSquare, Flame } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 
@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({
           <h3 className="text-sm font-medium">Share your feedback</h3>
           <textarea 
             className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            placeholder="How can we improve Wisp?"
+            placeholder="How can we improve Vichar?"
             value={feedbackText}
             onChange={(e) => setFeedbackText(e.target.value)}
           />
@@ -61,12 +61,8 @@ const Header: React.FC<HeaderProps> = ({
     <header className="border-b border-border pb-3 pt-2">
       <div className="flex items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <img 
-            src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" 
-            alt="Wisp Logo" 
-            className="h-7 w-7 object-contain"
-          />
-          <h1 className="text-xl font-semibold text-primary">Wisp</h1>
+          <Flame className="h-7 w-7 text-black" />
+          <h1 className="text-xl font-semibold text-primary">Vichar</h1>
         </div>
         <div className="flex items-center gap-1">
           <FeedbackButton />
