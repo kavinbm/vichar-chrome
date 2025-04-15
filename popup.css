@@ -75,6 +75,7 @@ header {
   color: var(--light-text);
   cursor: pointer;
   transition: all 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .tab-button:hover {
@@ -452,4 +453,8 @@ textarea {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
+}
+
+.tab-button.text-purple-600 {
+  color: #9b87f5; /* Using the primary purple from the color palette */
 }
