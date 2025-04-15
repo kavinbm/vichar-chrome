@@ -182,7 +182,7 @@ const PopupPreview: React.FC = () => {
         {filteredPrompts.length === 0 ? (
           <div className="empty-state">
             <p>No prompts found. Create your first prompt!</p>
-            <button className="button primary" onClick={() => setCurrentTab('create')}>Create Prompt</button>
+            <button className="button primary" onClick={() => setCurrentTab('create')}>Use Prompt</button>
           </div>
         ) : (
           filteredPrompts.map(prompt => (
@@ -294,14 +294,14 @@ const PopupPreview: React.FC = () => {
             className={`tab-button ${currentTab === 'prompts' ? 'active' : ''}`}
             onClick={() => setCurrentTab('prompts')}
           >
-            My Prompts
+            Quick Access
           </button>
           <button 
             id="tab-create" 
             className={`tab-button ${currentTab === 'create' ? 'active' : ''}`}
             onClick={() => setCurrentTab('create')}
           >
-            Create
+            Use
           </button>
           <button 
             id="tab-settings" 
@@ -329,15 +329,6 @@ const PopupPreview: React.FC = () => {
       {renderPromptsTab()}
       {renderCreateTab()}
       {renderSettingsTab()}
-
-      <div className="nav-buttons">
-        <button className="button secondary" onClick={() => setCurrentTab('prompts')}>
-          Quick Access
-        </button>
-        <button className="button primary" onClick={() => { setCurrentTab('prompts'); document.getElementById('search-input')?.focus(); }}>
-          Search
-        </button>
-      </div>
 
       <div id="toast" className="toast">
         <div className="toast-content">
