@@ -18,11 +18,6 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
   
   return (
     <div className="border-b border-border px-4 py-3">
-      <div className="flex items-center gap-2 mb-2">
-        <Tag size={14} className="text-muted-foreground" />
-        <h3 className="text-xs font-medium text-muted-foreground">Authors</h3>
-      </div>
-      
       <ScrollArea className="pb-1" orientation="horizontal">
         <div className="flex gap-2 pb-1">
           {categories.map((category) => (

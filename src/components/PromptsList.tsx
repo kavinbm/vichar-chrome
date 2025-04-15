@@ -65,7 +65,7 @@ const PromptsList: React.FC<PromptsListProps> = ({
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-3">
-                  <p className="prompt-preview text-muted-foreground text-sm leading-relaxed">{truncateText(prompt.text, 100)}</p>
+                  <p className="prompt-preview text-muted-foreground text-sm leading-relaxed text-left">{truncateText(prompt.text, 100)}</p>
                 </CardContent>
                 <CardFooter className="pt-0 pb-3 text-xs text-muted-foreground flex justify-between items-center border-t border-border/30 mt-1 pt-2">
                   {prompt.author && (
