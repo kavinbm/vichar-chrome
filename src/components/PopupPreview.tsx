@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
@@ -390,7 +389,6 @@ const PopupPreview: React.FC = () => {
     <div className="container">
       <header>
         <div className="logo">
-          <img src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" alt="Wisp Logo" />
           <h1>Wisp</h1>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
