@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
 import { Settings, MessageSquare } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -276,41 +274,39 @@ const PopupPreview: React.FC = () => {
 
   // Fixed Feedback button and popover component
   const FeedbackButton = () => (
-    <TooltipProvider>
-      <Popover>
-        <PopoverTrigger asChild>
-          <button className="action-button" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <MessageSquare size={16} />
-            <span>Feedback</span>
-          </button>
-        </PopoverTrigger>
-        <PopoverContent className="w-80">
-          <div className="feedback-container">
-            <h3 className="text-sm font-medium mb-2">Share your feedback</h3>
-            <textarea 
-              className="feedback-textarea"
-              placeholder="How can we improve Wisp?"
-              value={feedbackText}
-              onChange={(e) => setFeedbackText(e.target.value)}
-            />
-            <div className="feedback-actions">
-              <button 
-                className="button secondary"
-                onClick={() => setFeedbackText('')}
-              >
-                Cancel
-              </button>
-              <button 
-                className="button primary"
-                onClick={handleSubmitFeedback}
-              >
-                Submit
-              </button>
-            </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="action-button" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <MessageSquare size={16} />
+          <span>Feedback</span>
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="feedback-container">
+          <h3 className="text-sm font-medium mb-2">Share your feedback</h3>
+          <textarea 
+            className="feedback-textarea"
+            placeholder="How can we improve Wisp?"
+            value={feedbackText}
+            onChange={(e) => setFeedbackText(e.target.value)}
+          />
+          <div className="feedback-actions">
+            <button 
+              className="button secondary"
+              onClick={() => setFeedbackText('')}
+            >
+              Cancel
+            </button>
+            <button 
+              className="button primary"
+              onClick={handleSubmitFeedback}
+            >
+              Submit
+            </button>
           </div>
-        </PopoverContent>
-      </Popover>
-    </TooltipProvider>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 
   const renderTopActions = () => (
@@ -368,9 +364,9 @@ const PopupPreview: React.FC = () => {
         </div>
       </div>
 
-      {renderPromptsTab()}
-      {renderCreateTab()}
-      {renderSettingsTab()}
+      {currentTab === 'prompts' && renderPromptsTab()}
+      {currentTab === 'create' && renderCreateTab()}
+      {currentTab === 'settings' && renderSettingsTab()}
 
       <div id="toast" className="toast">
         <div className="toast-content">
