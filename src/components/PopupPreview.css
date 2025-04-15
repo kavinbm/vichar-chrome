@@ -14,3 +14,11 @@
   margin-bottom: 16px; /* Increased from 12px to 16px to match search container */
   border-bottom: 1px solid var(--border-color);
 }
+
+/* Add styling for the logo image */
+.logo-image {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  object-fit: contain;
+}
