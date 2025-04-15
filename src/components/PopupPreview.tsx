@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
@@ -66,6 +67,14 @@ const PopupPreview: React.FC = () => {
       setAllPrompts(data.prompts);
       setFilteredPrompts(data.prompts);
     });
+  };
+
+  // Function to highlight user input placeholders in square brackets
+  const highlightUserInputs = (text: string) => {
+    if (!text) return '';
+    
+    // Find all instances of text in square brackets
+    return text.replace(/\[([^\]]+)\]/g, '<span class="user-input-highlight">[$1]</span>');
   };
 
   const handleCopyPrompt = (id: string) => {
@@ -223,23 +232,25 @@ const PopupPreview: React.FC = () => {
     <div id="create-container" className={`tab-content ${currentTab === 'create' ? 'active' : ''}`}>
       <form id="prompt-form" onSubmit={handleSavePrompt}>
         <div className="form-group">
-          <div className="static-field prompt-title" style={{ backgroundColor: '#D6BCFA' }}>
-            {promptTitle || 'Enter a descriptive [prompt name]'}
+          <div className="static-field prompt-title">
+            {promptTitle || 'Enter a descriptive prompt name'}
           </div>
           {promptAuthor && <div className="static-field prompt-author">By {promptAuthor}</div>}
         </div>
 
         <div className="form-group flex-grow">
+          <label htmlFor="prompt-text" className="prompt-label">Prompt</label>
           <textarea 
             id="prompt-text" 
             placeholder="Enter your prompt text here..." 
             required
             value={promptText}
             onChange={(e) => setPromptText(e.target.value)}
+            className="prompt-textarea"
           ></textarea>
           <div className="textarea-controls">
             <span className="markdown-hint">
-              Supports markdown formatting. Highlight <span style={{ backgroundColor: '#D6BCFA' }}>[your input]</span> for user interaction points
+              Supports markdown formatting. Highlight <span style={{ backgroundColor: 'var(--light-purple-highlight)' }}>[your input]</span> for user interaction points
             </span>
           </div>
         </div>

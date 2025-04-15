@@ -72,6 +72,38 @@
   padding-left: 12px;
 }
 
+/* Prompt label and textarea styling */
+.prompt-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.prompt-textarea {
+  /* Add specific styles for the prompt textarea if needed */
+}
+
+/* User input highlight within textarea */
+.user-input-highlight {
+  background-color: var(--light-purple-highlight);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* Custom styling for the prompt text when edited */
+#prompt-text::selection {
+  background-color: rgba(214, 188, 250, 0.5);
+}
+
+/* Style for square brackets content in the textarea */
+.prompt-textarea [contentEditable="true"] {
+  display: inline-block;
+  background-color: var(--light-purple-highlight);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
 /* Feedback popover styling */
 .feedback-container {
   padding: 12px;
