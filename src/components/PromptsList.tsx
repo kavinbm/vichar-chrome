@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
@@ -45,12 +46,12 @@ const PromptsList: React.FC<PromptsListProps> = ({
               <Card 
                 key={prompt.id} 
                 data-id={prompt.id}
-                className="prompt-item border-2 hover:border-primary/50 transition-all duration-300 cursor-pointer hover:shadow-md animate-fade-in"
+                className="prompt-item border-transparent hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-md animate-fade-in"
                 onClick={() => onUsePrompt(prompt.id)}
               >
                 <CardHeader className="pb-2 pt-4">
                   <div className="flex justify-between items-start">
-                    <h3 className="prompt-title font-semibold text-lg text-left">{prompt.title}</h3>
+                    <h3 className="prompt-title font-semibold text-base text-left">{prompt.title}</h3>
                     <div className="prompt-actions">
                       <button 
                         className={cn(
@@ -70,7 +71,7 @@ const PromptsList: React.FC<PromptsListProps> = ({
                 <CardContent className="pt-0 pb-3">
                   <p className="prompt-preview text-muted-foreground text-sm leading-relaxed text-left">{truncateText(prompt.text, 100)}</p>
                 </CardContent>
-                <CardFooter className="pt-0 pb-3 text-xs text-muted-foreground flex justify-between items-center border-t border-border/30 mt-1 pt-2">
+                <CardFooter className="pt-0 pb-3 text-xs text-muted-foreground flex justify-between items-center border-0 mt-1 pt-2">
                   {prompt.author && (
                     <div className="flex items-center gap-1">
                       <User className="h-3 w-3" />
