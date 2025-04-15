@@ -1,6 +1,6 @@
 
 /* Import the original popup.css styles */
-@import url('../popup.css');
+@import url('../../popup.css');
 
 /* Additional styles for the preview */
 .app-container {
