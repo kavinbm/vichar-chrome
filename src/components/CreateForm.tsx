@@ -1,9 +1,9 @@
-
 import React, { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, X, FileText, User, Sparkles, Pencil, ChevronLeft } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface CreateFormProps {
   promptTitle: string;
@@ -100,7 +100,10 @@ const CreateForm: React.FC<CreateFormProps> = ({
             </Button>
             <Button 
               type="submit" 
-              className="flex items-center gap-1"
+              className={cn(
+                "flex items-center gap-1",
+                "bg-[#9b87f5] hover:bg-[#8E69AB] text-white" // Purple background with hover state
+              )}
             >
               <Check className="h-4 w-4" />
               Copy

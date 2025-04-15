@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { PlusCircle, Clock, User } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Prompt {
   id: string;
@@ -53,7 +53,10 @@ const PromptsList: React.FC<PromptsListProps> = ({
                     <h3 className="prompt-title font-semibold text-lg text-left">{prompt.title}</h3>
                     <div className="prompt-actions">
                       <button 
-                        className="action-button edit bg-primary text-primary-foreground rounded-md px-3 py-1 text-sm hover:bg-primary/90 transition-colors" 
+                        className={cn(
+                          "action-button edit rounded-md px-3 py-1 text-sm transition-colors",
+                          "bg-[#9b87f5] text-white hover:bg-[#8E69AB]"
+                        )}
                         onClick={(e) => { 
                           e.stopPropagation(); 
                           onUsePrompt(prompt.id); 
