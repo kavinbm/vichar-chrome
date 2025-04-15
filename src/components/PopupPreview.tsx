@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
@@ -75,7 +74,7 @@ const PopupPreview: React.FC = () => {
     }
   };
 
-  const handleEditPrompt = (id: string) => {
+  const handleUsePrompt = (id: string) => {
     const prompt = allPrompts.find(p => p.id === id);
     if (prompt) {
       setPromptTitle(prompt.title);
@@ -83,20 +82,6 @@ const PopupPreview: React.FC = () => {
       setPromptAuthor(prompt.author || '');
       setEditingPromptId(id);
       setCurrentTab('create');
-    }
-  };
-
-  const handleDeletePrompt = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this prompt?')) {
-      const updatedPrompts = allPrompts.filter(p => p.id !== id);
-      setAllPrompts(updatedPrompts);
-      setFilteredPrompts(updatedPrompts.filter(p => {
-        if (searchQuery.trim() === '') return true;
-        const query = searchQuery.toLowerCase();
-        return p.title.toLowerCase().includes(query) || p.text.toLowerCase().includes(query);
-      }));
-      
-      showToast('Prompt deleted', 'success');
     }
   };
 
@@ -205,14 +190,8 @@ const PopupPreview: React.FC = () => {
               <div className="prompt-header">
                 <div className="prompt-title">{prompt.title}</div>
                 <div className="prompt-actions">
-                  <button className="action-button copy" onClick={(e) => { e.stopPropagation(); handleCopyPrompt(prompt.id); }}>
-                    Copy
-                  </button>
-                  <button className="action-button edit" onClick={(e) => { e.stopPropagation(); handleEditPrompt(prompt.id); }}>
-                    Edit
-                  </button>
-                  <button className="action-button delete" onClick={(e) => { e.stopPropagation(); handleDeletePrompt(prompt.id); }}>
-                    Delete
+                  <button className="action-button edit" onClick={(e) => { e.stopPropagation(); handleUsePrompt(prompt.id); }}>
+                    Use
                   </button>
                 </div>
               </div>
