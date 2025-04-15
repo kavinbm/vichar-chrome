@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import './PopupPreview.css';
 import { dummyPrompts } from '../data/dummyData';
-import { Settings, MessageSquare } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { processTextForHighlighting } from '../utils/textHighlighter';
-import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import Header from './Header';
+import SearchBar from './SearchBar';
+import CategoriesSection from './CategoriesSection';
+import PromptsList from './PromptsList';
+import CreateForm from './CreateForm';
+import SettingsPanel from './SettingsPanel';
+import Toast from './Toast';
 
 // Simulate the Chrome storage API for the preview
 const chromeStorageMock = {
@@ -34,9 +38,7 @@ const PopupPreview: React.FC = () => {
   const [promptAuthor, setPromptAuthor] = useState<string>('');
   const [feedbackText, setFeedbackText] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-
   const [highlightedView, setHighlightedView] = useState<string>('');
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Load prompts on mount
   useEffect(() => {
@@ -99,14 +101,6 @@ const PopupPreview: React.FC = () => {
       )
       .sort();
     return categories;
-  };
-
-  // Function to highlight user input placeholders in square brackets
-  const highlightUserInputs = (text: string) => {
-    if (!text) return '';
-    
-    // Find all instances of text in square brackets
-    return text.replace(/\[([^\]]+)\]/g, '<span class="user-input-highlight">[$1]</span>');
   };
 
   const handleCopyPrompt = (id: string) => {
@@ -209,237 +203,55 @@ const PopupPreview: React.FC = () => {
     }
   };
 
-  // Create a display element for the highlighted text view
-  const HighlightedTextDisplay = () => {
-    return (
-      <div 
-        className="highlighted-text-display" 
-        dangerouslySetInnerHTML={{ __html: highlightedView }}
-      />
-    );
-  };
-
-  // Categories section component
-  const CategoriesSection = () => {
-    const categories = getCategories();
-    
-    if (categories.length === 0) return null;
-    
-    return (
-      <div className="categories-container">
-        {categories.map((category, index) => (
-          <div 
-            key={index} 
-            className={`category-tag ${selectedCategory === category ? 'active' : ''}`}
-            onClick={() => handleCategoryClick(category)}
-          >
-            {category}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const renderPromptsTab = () => (
-    <div id="prompts-container" className={`tab-content ${currentTab === 'prompts' ? 'active' : ''}`}>
-      <ScrollArea className="h-full">
-        <div id="prompts-list" className="prompts-list">
-          {filteredPrompts.length === 0 ? (
-            <div className="empty-state">
-              <p>No prompts found. Create your first prompt!</p>
-              <button className="button primary" onClick={() => setCurrentTab('create')}>Use Prompt</button>
-            </div>
-          ) : (
-            filteredPrompts.map(prompt => (
-              <div className="prompt-item" key={prompt.id} data-id={prompt.id} onClick={() => handleUsePrompt(prompt.id)}>
-                <div className="prompt-header">
-                  <div className="prompt-title">{prompt.title}</div>
-                  <div className="prompt-actions">
-                    <button className="action-button edit" onClick={(e) => { e.stopPropagation(); handleUsePrompt(prompt.id); }}>
-                      Use
-                    </button>
-                  </div>
-                </div>
-                <div className="prompt-preview">{truncateText(prompt.text, 100)}</div>
-                <div className="prompt-meta">
-                  {prompt.author && <div>By {prompt.author}</div>}
-                  <div>{formatDate(prompt.createdAt)}</div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </ScrollArea>
-    </div>
-  );
-
-  const renderCreateTab = () => (
-    <div id="create-container" className={`tab-content ${currentTab === 'create' ? 'active' : ''}`}>
-      <form id="prompt-form" onSubmit={handleSavePrompt}>
-        <div className="form-group">
-          <div className="static-field prompt-title">
-            {promptTitle || 'Enter a descriptive prompt name'}
-          </div>
-          {promptAuthor && <div className="static-field prompt-author">By {promptAuthor}</div>}
-        </div>
-
-        <div className="form-group flex-grow">
-          <label htmlFor="prompt-text" className="prompt-label">Prompt</label>
-          <div className="textarea-container">
-            <Textarea 
-              id="prompt-text" 
-              placeholder="Enter your prompt text here..." 
-              required
-              value={promptText}
-              onChange={(e) => setPromptText(e.target.value)}
-              className="prompt-textarea"
-              ref={textareaRef}
-            />
-            <HighlightedTextDisplay />
-          </div>
-          <div className="textarea-controls">
-            <span className="markdown-hint">
-              Supports markdown formatting. Highlight <span style={{ backgroundColor: 'var(--light-purple-highlight)' }}>[your input]</span> for user interaction points
-            </span>
-          </div>
-        </div>
-
-        <div className="form-actions">
-          <button type="button" id="cancel-prompt" className="button secondary" onClick={handleCancelEdit}>
-            Cancel
-          </button>
-          <button type="submit" id="save-prompt" className="button primary">
-            Copy
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-
-  const renderSettingsTab = () => (
-    <div id="settings-container" className={`tab-content ${currentTab === 'settings' ? 'active' : ''}`}>
-      <div className="settings-group">
-        <h3>Data Management</h3>
-        <div className="settings-actions">
-          <button id="export-data" className="button secondary">Export Prompts</button>
-          <button id="import-data" className="button secondary">Import Prompts</button>
-        </div>
-        <div className="storage-info">
-          <div className="storage-bar">
-            <div id="storage-fill" className="storage-fill" style={{ width: `${(allPrompts.length / 100) * 100}%` }}></div>
-          </div>
-          <div className="storage-text">Using <span id="storage-used">{allPrompts.length}</span> of 100 prompts</div>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Fixed Feedback button and popover component
-  const FeedbackButton = () => (
-    <Popover>
-      <PopoverTrigger asChild>
-        <button className="action-button" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <MessageSquare size={16} />
-          <span>Feedback</span>
-        </button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80">
-        <div className="feedback-container">
-          <h3 className="text-sm font-medium mb-2">Share your feedback</h3>
-          <textarea 
-            className="feedback-textarea"
-            placeholder="How can we improve Wisp?"
-            value={feedbackText}
-            onChange={(e) => setFeedbackText(e.target.value)}
-          />
-          <div className="feedback-actions">
-            <button 
-              className="button secondary"
-              onClick={() => setFeedbackText('')}
-            >
-              Cancel
-            </button>
-            <button 
-              className="button primary"
-              onClick={handleSubmitFeedback}
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-
-  const renderTopActions = () => (
-    <div className="top-actions" style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>
-      <FeedbackButton />
-      
-      <button 
-        className="action-button settings"
-        onClick={() => setCurrentTab('settings')}
-        style={{ display: 'flex', alignItems: 'center', padding: '4px' }}
-      >
-        <Settings size={20} />
-      </button>
-    </div>
-  );
-
   return (
     <div className="container">
-      <header>
-        <div className="logo">
-          <img 
-            src="/public/lovable-uploads/bd0c46f8-2219-40b1-bc34-2e40e5d7de31.png" 
-            alt="Wisp Logo" 
-            className="logo-image"
+      <Header 
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        feedbackText={feedbackText}
+        setFeedbackText={setFeedbackText}
+        handleSubmitFeedback={handleSubmitFeedback}
+      />
+
+      <SearchBar 
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery} 
+        promptCount={filteredPrompts.length} 
+      />
+
+      {currentTab === 'prompts' && (
+        <>
+          <CategoriesSection 
+            categories={getCategories()} 
+            selectedCategory={selectedCategory} 
+            onCategoryClick={handleCategoryClick} 
           />
-          <h1>Wisp</h1>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <div className="tabs">
-            <button 
-              id="tab-prompts" 
-              className={`tab-button ${currentTab === 'prompts' ? 'active' : ''}`}
-              onClick={() => setCurrentTab('prompts')}
-            >
-              Quick Access
-            </button>
-            <button 
-              id="tab-create" 
-              className={`tab-button ${currentTab === 'create' ? 'active' : ''}`}
-              onClick={() => setCurrentTab('create')}
-            >
-              Use
-            </button>
-          </div>
-          {renderTopActions()}
-        </div>
-      </header>
-
-      <div className="search-container">
-        <input 
-          type="text" 
-          id="search-input" 
-          placeholder="Search prompts..." 
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          <PromptsList 
+            prompts={filteredPrompts} 
+            onUsePrompt={handleUsePrompt} 
+            truncateText={truncateText}
+            formatDate={formatDate}
+          />
+        </>
+      )}
+      
+      {currentTab === 'create' && (
+        <CreateForm 
+          promptTitle={promptTitle}
+          promptText={promptText}
+          promptAuthor={promptAuthor}
+          setPromptText={setPromptText}
+          handleSavePrompt={handleSavePrompt}
+          handleCancelEdit={handleCancelEdit}
+          highlightedView={highlightedView}
         />
-        <div className="prompt-count">
-          <span id="prompt-count">{filteredPrompts.length}</span> prompts
-        </div>
-      </div>
+      )}
+      
+      {currentTab === 'settings' && (
+        <SettingsPanel promptCount={allPrompts.length} />
+      )}
 
-      {currentTab === 'prompts' && <CategoriesSection />}
-      {currentTab === 'prompts' && renderPromptsTab()}
-      {currentTab === 'create' && renderCreateTab()}
-      {currentTab === 'settings' && renderSettingsTab()}
-
-      <div id="toast" className="toast">
-        <div className="toast-content">
-          <span id="toast-message"></span>
-        </div>
-      </div>
+      <Toast id="toast" />
     </div>
   );
 };
