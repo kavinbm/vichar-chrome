@@ -46,7 +46,7 @@ const PromptsList: React.FC<PromptsListProps> = ({
               <Card 
                 key={prompt.id} 
                 data-id={prompt.id}
-                className="prompt-item border-transparent hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-md animate-fade-in"
+                className="prompt-item border border-gray-200 hover:border-primary/50 transition-all duration-300 cursor-pointer hover:shadow-md animate-fade-in"
                 onClick={() => onUsePrompt(prompt.id)}
               >
                 <CardHeader className="pb-2 pt-4">
